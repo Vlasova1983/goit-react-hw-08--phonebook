@@ -1,17 +1,18 @@
-import styles  from '../../Styles/Form.module.css';
 
+import styles  from "../../Styles/Form.module.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter} from "../../redux/filter/filter.selector";
-import { addFilter } from '../../redux/filter/filter.slice';
+import {selectFilter} from '../../redux/contacts/contacts.selectors';
+import { addFilter } from "../../redux/contacts/filter.slice";
 
 export const Filter = () => {
     const dispatch = useDispatch();
-    const filter = useSelector(getFilter);   
+    const filter = useSelector(selectFilter);    
 
-    const handleFilter = event =>{                          
-        dispatch(addFilter(event.target.value));
+
+    const handleFilter = event =>{                            
+        dispatch(addFilter(event.target.value));       
     };
-
+  
     return (            
         <div className={styles.form}>
             <h2>Find contacts by name</h2>
@@ -31,3 +32,4 @@ export const Filter = () => {
     );
   };
 
+ 
