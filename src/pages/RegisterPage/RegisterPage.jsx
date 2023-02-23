@@ -3,9 +3,8 @@ import Notiflix from 'notiflix';
 
 import { useState } from "react";
 import { useNavigate} from "react-router-dom";
-// import {useDispatch } from 'react-redux';
-// import { authLoginThunk } from "redux/auth/auth.thunk";
-import { publicApi } from 'http/http';
+
+import { privateApi } from 'http/http';
 
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Button';
@@ -20,8 +19,8 @@ const initialState = {
 export const RegisterPage =()=> { 
   const [value,setValue]=useState(initialState);
   const navigate = useNavigate();
-  const [showPassword,setShowPassword]=useState('password');
-  // const dispatch = useDispatch();
+  const [showPassword,setShowPassword]=useState(true);
+
 
   const handleChange =event=>{
     const {value, name} = event.target;
@@ -36,9 +35,9 @@ export const RegisterPage =()=> {
     event.preventDefault(); 
       
     try { 
-    await publicApi.post('/users/signup/',value) 
+    await privateApi.post('/users/signup/',value) 
       Notiflix.Notify.info('Registration completed successfully!');
-        // dispatch(authLoginThunk(...value));    
+         
       navigate("/login",{replace:true});
     } catch (e) {                     
       Notiflix.Notify.failure('Sorry, your registration did not work. Try again.');
@@ -83,7 +82,7 @@ export const RegisterPage =()=> {
         </label>
         <input
           id="password"
-          type={showPassword}
+          type={showPassword===true?'password':'text'}
           name="password"
           className={styles.input}
           onChange={handleChange}
@@ -91,7 +90,7 @@ export const RegisterPage =()=> {
           placeholder="Search password..."            
         />
       </div>      
-      <RemoveRedEyeIcon className={styles.showPassword} type="button" onClick={()=>showPassword==='password'?setShowPassword('text'):setShowPassword('password')}>Show password</RemoveRedEyeIcon>          
+      <RemoveRedEyeIcon className={styles.showPassword} type="button" onClick={()=>setShowPassword(false)}>Show password</RemoveRedEyeIcon>          
       <div className={styles.flex}>
         <Button  className={styles.button} variant="contained"  type="submit">REGISTER</Button>
         <Link style={{color:"grey"}}component="button" variant="body2" onClick={goToLogin} >Have an account? Log in...</Link>
