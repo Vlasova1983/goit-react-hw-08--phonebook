@@ -8,7 +8,7 @@ import {Outlet ,useNavigate} from "react-router-dom";
 
 import { authLoginThunk } from "redux/auth/auth.thunk";
 import { selectAuthStatus } from "redux/auth/auth.selector";
-
+import {STATUS} from "../../contents/status.contents";
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Button';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -23,7 +23,7 @@ export const LoginPage =()=> {
   const navigate = useNavigate();
   const status = useSelector(selectAuthStatus);
   const [value,setValue]=useState(initialState);
-  const [showPassword,setShowPassword]=useState('password');
+  const [showPassword,setShowPassword]=useState(true);
   
     
   const handleChange =event=>{
@@ -34,22 +34,22 @@ export const LoginPage =()=> {
   const goToRegister = ()=>{
     navigate("/register",{replace:true});
   }
-
+  
   const handleFormSubmit = async (event)=>{     
     event.preventDefault(); 
       
-  try {
-    await dispatch(authLoginThunk(value)).unwrap();
-      Notiflix.Notify.info('Success!');        
-    navigate('/contact');
-    } catch {
+    try {
+      await dispatch(authLoginThunk(value)).unwrap();
+        Notiflix.Notify.info('Success!');        
+        navigate('/contacts');
+      } catch {
       Notiflix.Notify.failure('Sorry, your logining did not work.Try again.');       
     }
   };
 
   return (
     <>
-      {status === "loading" && <p>Loading ...</p>}
+      {status === STATUS.loading && <p>Loading ...</p>}
       <form className={styles.form} onSubmit={handleFormSubmit}>         
         <div className="">
           <label htmlFor="email" className="">
@@ -71,7 +71,7 @@ export const LoginPage =()=> {
           </label>
           <input
             id="password"
-            type={showPassword}
+            type={showPassword===true?'password':'text'}
             name="password"
             className={styles.input}                        
             onChange={handleChange}
@@ -79,7 +79,7 @@ export const LoginPage =()=> {
             placeholder="Search password..."             
           />
         </div>
-        <RemoveRedEyeIcon className={styles.showPassword}  type="button" onClick={()=>showPassword==='password'?setShowPassword('text'):setShowPassword('password')}>Show password</RemoveRedEyeIcon>    
+        <RemoveRedEyeIcon className={styles.showPassword}  type="button" onClick={()=>setShowPassword(false)}>Show password</RemoveRedEyeIcon>    
         <div className={styles.flex}>
           <Button  className={styles.button} variant="contained" type="submit"> LOGIN</Button>
           <Link style={{color:"grey"}}component="button" variant="body2" onClick={goToRegister} >Don't have an account? Sign up...</Link>
