@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
-import {selectProfile} from '../../redux/profile/profile.selector';
-import {logoutThunk} from "../../redux/logout/logout.thunk";
+import {selectProfile} from '../../redux/auth/auth.selector';
+import {logoutThunk} from "../../redux/auth/auth.thunk";
 import InputIcon from '@mui/icons-material/Input';
 
 export const UseMenu =()=> {  
