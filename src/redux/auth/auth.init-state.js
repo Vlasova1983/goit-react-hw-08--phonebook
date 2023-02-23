@@ -1,4 +1,9 @@
+import {STATUS} from "../../contents/status.contents";
+
 export const authtInitState = {
-  data: null,
-  status:'idle',
+  auth:null,
+  profile:null,
+  logout:null,  
+  status: STATUS.idle,
+  isLoggedIn:false,
 };
