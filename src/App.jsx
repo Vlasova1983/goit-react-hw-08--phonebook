@@ -1,17 +1,17 @@
-import { useEffect,Suspense} from 'react';
+import { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import { HomePage} from './pages/HomePage/HomePage';
 import {LoginPage} from './pages/LoginPage/LoginPage';
 import {RegisterPage} from './pages/RegisterPage/RegisterPage';
-import {StartPage} from './pages/StartPage/StartPage';
+
 import {PublicRoute} from './components/AuthRoute/PublicRoure';
 import {PrivateRoute} from './components/AuthRoute/PrivateRoute';
 import {Layout} from "./components/Layout/Layout";
 
 import {selectAuthToken} from "./redux/auth/auth.selector";
-import {getProfileThunk} from './redux/profile/profile.thunk'
+import {getProfileThunk} from './redux/auth/auth.thunk'
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -21,22 +21,15 @@ export const App = () => {
     dispatch(getProfileThunk());       
   }, [token, dispatch]);
 
- return(
-  <BrowserRouter   basename="goit-react-hw-08--phonebook">  
-    <Layout> 
-      <Suspense fallback={<p>Loading...</p>}>     
+  return(
+    <BrowserRouter   basename="goit-react-hw-08--phonebook">  
+      <Layout>         
         <Routes> 
-          <Route path="" element={<StartPage/>}/>
-          <Route path='' element={<PublicRoute/>}>
-            <Route path="register" element={<RegisterPage/>}/>
-            <Route path="login" element={<LoginPage/>}/>
-          </Route> 
-          <Route path='' element={<PrivateRoute/>}>
-            <Route path="contact" element={<HomePage/>}/> 
-          </Route>                           
-        </Routes>
-      </Suspense>        
-    </Layout>      
-  </BrowserRouter>
- );
+          <Route path='register' element={<PublicRoute redirectTo="/contacts" component={<RegisterPage/>}/>}/>
+          <Route path='login' element={<PublicRoute redirectTo="/contacts" component={<LoginPage/>}/>}/>        
+          <Route path='contacts' element={<PrivateRoute redirectTo="/login" component={<HomePage/>}/>}/>                               
+        </Routes>             
+      </Layout>      
+    </BrowserRouter>
+  );
 };
