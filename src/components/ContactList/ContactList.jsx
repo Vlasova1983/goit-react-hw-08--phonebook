@@ -2,19 +2,18 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import styles  from '../ContactList/ContactList.module.css';
 
-import { deleteContact} from "../../redux/contacts/contacts.thunk";
-import { getContacts } from "../../redux/contacts/contacts.selectors";
-import { getFilter } from '../../redux/filter/filter.selector';
+import {deleteContact} from "../../redux/contacts/contacts.thunk";
+import {selectContact,selectFilter} from "../../redux/contacts/contacts.selectors";
 
 import Button from '@mui/material/Button';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilter);
-  const data = useSelector(getContacts);     
+  const filter = useSelector(selectFilter);
+  const data = useSelector(selectContact);  
 
   const  getFilterContact =()=> {       
-    return data.filter((contact)=>contact.name.toLowerCase().includes(filter));
+    return data.contacts.filter((contact)=>contact.name.toLowerCase().includes(filter));
   };
       
   const contacts = getFilterContact();  
@@ -37,10 +36,8 @@ export const ContactList = () => {
     </>              
   );
 };
+  
 
-  
-  
-  
   
  
   
