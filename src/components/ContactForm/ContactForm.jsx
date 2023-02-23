@@ -2,8 +2,8 @@ import styles  from '../../Styles/Form.module.css';
 import {useState} from "react";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from "../../redux/contacts/contacts.thunk";
-import { getContacts} from "../../redux/contacts/contacts.selectors";
+import { addContact, } from "../../redux/contacts/contacts.thunk";
+import { selectContact} from "../../redux/contacts/contacts.selectors";
 import Button from '@mui/material/Button';
 
 const getRandomID=()=> {
@@ -12,7 +12,7 @@ const getRandomID=()=> {
 
 export const ContactForm =()=> { 
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContact);
 
   const [name,setInName] = useState(''); 
   const [number,setInNumber] = useState('');
@@ -23,7 +23,7 @@ export const ContactForm =()=> {
   };
 
   const isContactInState = ({ name }) =>
-    !!contacts.filter(({name: prevName}) => {return prevName === name}).length;
+    !!contacts.contacts.filter(({name: prevName}) => {return prevName === name}).length;
 
   const onSubmit = ({ name, number }) => { 
     if (isContactInState({ name })) {
