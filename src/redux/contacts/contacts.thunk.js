@@ -1,19 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {privateApi,token} from '../../http/http';
-import { selectAuthToken } from '../auth/auth.selector';
+import { selectAuthToken } from '../auth/auth.selector'; 
 
 
 export const fetchContact = createAsyncThunk('contact', async (_, { getState, rejectWithValue }) => {
   const stateToken = selectAuthToken(getState());
-
   if (!stateToken) {
     return rejectWithValue();
   }
-
   token.set(stateToken);
-  const { data } = await privateApi.get('/contacts'); 
+  const { data } = await privateApi.get('/contacts');   
   return data;
-});  
+}); 
 
 
 export const addContact = createAsyncThunk( "contacts/addContact", async (text, { getState, rejectWithValue }) => {
@@ -38,7 +36,9 @@ export const deleteContact =  createAsyncThunk("contacts/deleteContact", async (
   token.set(stateToken);
   const { data } = await privateApi.delete(`/contacts/${taskId}`); 
   return data;
-});  
+}); 
+
+
 
 
 
